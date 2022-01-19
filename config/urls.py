@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 import board.views
+import user.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,8 +11,8 @@ urlpatterns = [
     path('register/', board.views.register),
 
     path('user/pchange', user.views.pchange),
-    path('user/signup', user.views.pchange),
-    path('user/delete', user.views.pchange),
-    path('user/login', user.views.pchange),
-    path('user/logout', user.views.pchange),
+    path('user/signup', user.views.singup),
+    path('user/login', user.views.login),
+    path('user/logout', user.views.logout),
+
 ]
