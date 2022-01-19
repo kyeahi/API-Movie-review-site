@@ -24,6 +24,7 @@ def register(request):
 #@login_required(login_url='/users/login')
 def list(request):
     posts = Board.objects.all()
+    lll = 1
     return render(request, 'board/list.html',
                   {'posts': posts})
 
