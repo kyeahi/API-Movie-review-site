@@ -1,0 +1,58 @@
+
+
+
+<!-- Contact Section-->
+        <section class="page-section" id="contact">
+            <div class="container">
+                <!-- Contact Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">로그인</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Contact Section Form-->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form method="post">
+                            {% csrf_token %}
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input name="username" class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">ID</label>
+
+                            </div>
+                            <!-- Password input-->
+                            <div class="form-floating mb-3">
+                                <input name="password" class="form-control" id="email" type="password" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">PASSWORD</label>
+
+                            </div>
+
+
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3"></div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <!-- Submit Button-->
+                            <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
