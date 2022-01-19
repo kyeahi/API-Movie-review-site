@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Listjhhgjhg</title>
+    <title>List</title>
 </head>
 <body>
+    <thread>
+        <th> 글 번호 </th>
+        <th> 제목 </th>
+        <th> 작성일시 </th>
+    </thread>
 
+    {% if posts %}
+        {% for post in posts %}
+    <tr>
+        <td> {{ post.id }} </td>
+        <td> {{ post.director }} </td>
+        <td> {{ post.title }} </td>
+        <td> {{ post.contents }} </td>
+        <td> {{ post.cast }} </td>
+        <td> {{ post.creat_date }} </td>
+    </tr>
+        {% endfor %}
+    {% endif %}
 </body>
 </html>
