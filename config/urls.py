@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import users.views
+import comment.views
 
 urlpatterns = [
     path('base', users.views.base),
@@ -23,5 +24,12 @@ urlpatterns = [
     path('users/signup', users.views.signup),
     path('users/delete', users.views.userDelete),
     path('users/login', users.views.userlogin),
-    path('users/logout', users.views.userlogout)
+    path('users/logout', users.views.userlogout),
+
+    path('comment/register', comment.views.register),
+    path('comment/list', comment.views.posts),
+    path('comment/read/<int:bid>', comment.views.read),  # 뒤에 int타입의 변수를 받아 bid에 저장
+    path('comment/delete/<int:bid>', comment.views.delete),
+    path('comment/update/<int:bid>', comment.views.update),
+    path('comment/like/<int:bid>', comment.views.like),
 ]
