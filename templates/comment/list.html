@@ -13,6 +13,7 @@
             <th> [작성자]</th>
             <th> [작성일시]</th>
             <th> [기능]</th>
+            <th> [좋아요]</th>
         </thread>
         {% if posts %}
             {% for post in posts %}
@@ -22,14 +23,16 @@
                     <td>{{ post.contents}}</td>
                     <td>{{ post.writer}}</td>
                     <td>{{ post.create_date}}</td>
-                    <td><h3 onclick="sendLike( {{ post.id }}, this)" class="col-2">
+                    <td><button onclick="location.href='/comment/read/{{ post.id}}'">이동</button></td>
+                    <td>
+                        <h3 onclick="sendLike( {{ post.id }}, this)" class="col-2">
                         {% if user in post.like.all %}
                             ❤
                         {% else %}
                             🤍
                         {% endif %}
                         {{ post.like.count }}
-                    </h3>
+                        </h3>
                     </td>
                 </tr>
             {% endfor %}
