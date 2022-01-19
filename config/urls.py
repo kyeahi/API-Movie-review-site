@@ -18,10 +18,14 @@ from django.urls import path
 
 import board.views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('list/', board.views.list),
     path('read/<int:bid>', board.views.read),
     path('register/', board.views.register),
+    path('nhome/nboard', board.views.nboard),
+    path('nhome', board.views.nhome),
 
 ]

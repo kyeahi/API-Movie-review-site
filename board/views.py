@@ -4,6 +4,12 @@ from django.shortcuts import render, redirect
 from board.forms import BoardForm2
 from board.models import Board
 
+def nhome(request):
+    return render(request, 'board/nhome.html')      # sbk_첫번째페이지
+
+def nboard(request):
+    return render(request, 'board/nboard.html')      # sbk_두번째페이지
+
 
 #@login_required(login_url='/users/login')
 def register(request):
