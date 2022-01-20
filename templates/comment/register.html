@@ -6,9 +6,9 @@
 </head>
 <body>
     <button onclick="location.href='/base'">목록</button >
-    <form action="/board/register" method="post">
+    <form action="/comment/register" method="post">
         {% csrf_token %}
-        {{ boardForm }}
+        {{ commentForm }}
         <input type = "submit">
     </form>
 </body>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <table>
+        <thread>
+            <th> [제목]</th>
+            <th> [내용]</th>
+            <th> [작성자]</th>
+            <th> [작성일시]</th>
+            <th> [기능]</th>
+        </thread>
+        {% if post %}
+            <tr>
+                <td>{{ post.title}}</td>
+                <td>{{ post.contents}}</td>
+                <td>{{ post.writer}}</td>
+                <td>{{ post.create_date}}</td>
+                {% if request.user == post.writer %}
+                <td>
+                    <button onclick="location.href='/comment/update/{{ post.id}}'">수정</button >
+                    <button onclick="location.href='/comment/delete/{{ post.id}}'">삭제</button >
+                </td>
+                {% endif %}
+            </tr>
+        {% endif %}
+    </table>
+</body>
+</html>
+
