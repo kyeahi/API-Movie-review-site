@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+
 import users.views
 
 urlpatterns = [
@@ -23,7 +24,7 @@ urlpatterns = [
     path('users/signup', users.views.signup),
     path('users/login', users.views.userlogin),
     path('users/logout', users.views.userlogout),
-    path('watcha', users.views.watcha),
-    path('change_password', users.views.change_password),
-
+    path('base', users.views.base),
+    path('users/change_password', users.views.change_password),
+    path('users/user_delete', users.views.user_delete),
 ]

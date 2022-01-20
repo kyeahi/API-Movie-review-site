@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <thread>
+            <th> [글번호]</th>
+            <th> [제목]</th>
+            <th> [내용]</th>
+            <th> [작성자]</th>
+            <th> [작성일시]</th>
+            <th> [기능]</th>
+            <th> [좋아요]</th>
+        </thread>
+        {% if posts %}
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id}}</td>
+                    <td>{{ post.title}}</td>
+                    <td>{{ post.contents}}</td>
+                    <td>{{ post.writer}}</td>
+                    <td>{{ post.create_date}}</td>
+                    <td><button onclick="location.href='/comment/read/{{ post.id}}'">이동</button></td>
+                    <td>
+                        <h3 onclick="sendLike( {{ post.id }}, this)" class="col-2">
+                        {% if user in post.like.all %}
+                            ❤
+                        {% else %}
+                            🤍
+                        {% endif %}
+                        {{ post.like.count }}
+                        </h3>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <script>
+            function sendLike(bid, event) {
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
+                        var json = JSON.parse(httpRequest.responseText);
+
+                        if (json['message'] == 'add' ) {
+                            event.innerText = "❤"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        } else if (json['message'] == 'del' ) {
+                            event.innerText = "🤍"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        }
+                    }
+                };
+                httpRequest.open("GET", "/comment/Like/" + bid, true);
+                httpRequest.send();
+            }
+        </script>
+    </table>
+</body>
+</html>
+
+
+
