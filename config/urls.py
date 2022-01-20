@@ -27,5 +27,7 @@ urlpatterns = [
     path('register/', board.views.register),
     path('nhome/nboard', board.views.nboard),
     path('nhome', board.views.nhome),
+    path('ntest', board.views.nnhome),                   # 이것은 테스트
+
 
 ]
