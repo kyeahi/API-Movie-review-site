@@ -2,7 +2,6 @@ from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.contrib import messages
 
 
 def base(request):
@@ -50,17 +49,15 @@ def change_password(request):
         password_change_form = PasswordChangeForm(request.user, request.POST)
 
         if password_change_form.is_valid():
-            # 추가된 부분
             user = password_change_form.save()
             update_session_auth_hash(request, user)
-            # 끝
             return redirect('/base')
         else:
             return redirect('/users/change_password')
 
-@login_required(login_url='/users/login')
+@login_required
 def user_delete(request):
     if request.method == 'POST':
         request.user.delete()
-        return redirect('posts:list')
-    return render(request, 'layout/base.html')
+        return redirect('/base')
+    return render(request, 'users/user_delete.html')
