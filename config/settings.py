@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1v=8-*6e^-z5#vh@r=k!=map$zo%nnf(70h*hn&56r^o9xw88n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+<<<<<<< HEAD
+=======
+    'comment',
+    'board',
+>>>>>>> origin/ksm
 ]
 
 MIDDLEWARE = [
@@ -78,9 +83,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'page',
+<<<<<<< HEAD
         'USER': 'one3',
         'PASSWORD': 'qwer1234',
         'HOST': '172.30.1.167',  # 내 컴퓨터
+=======
+        'USER': 'one2',
+        'PASSWORD': 'qwer1234',
+        'HOST': '172.30.1.167',
+>>>>>>> origin/ksm
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'

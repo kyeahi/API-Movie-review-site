@@ -15,6 +15,7 @@
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8">회원탈퇴</button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/register">댓글등록</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/list">댓글목록</a></button>
+                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/board/register">게시글등록</a></button>
                 </ul>
             </div>
             <div>
@@ -27,13 +28,15 @@
                             <th> 내용 </th>
                         </thread>
                         {% if posts %}
-                           <tr>
-                                <td> {{ post.title }} </td>
-                                <td> {{ post.opening_date}}</td>
-                                <td> {{ post.director }} </td>
-                                <td> {{ post.cast }} {{post.cast2}} {{post.cast3}} {{post.cast4}} </td>
-                                <td> {{ post.contents }} </td>
-                            </tr>
+                            {% for post in posts %}
+                                <tr>
+                                    <td> {{ post.title }} </td>
+                                    <td> {{ post.opening_date}}</td>
+                                    <td> {{ post.director }} </td>
+                                    <td> {{ post.cast }} {{post.cast2}} {{post.cast3}} {{post.cast4}} </td>
+                                    <td> {{ post.contents }} </td>
+                                </tr>
+                            {% endfor %}
                         {% endif %}
                  </table>
             </div>
