@@ -13,16 +13,16 @@
             <th> [작성일시]</th>
             <th> [기능]</th>
         </thread>
-        {% if post %}
+        {% if comment %}
             <tr>
-                <td>{{ post.title}}</td>
-                <td>{{ post.contents}}</td>
-                <td>{{ post.writer}}</td>
-                <td>{{ post.create_date}}</td>
-                {% if request.user == post.writer %}
+                <td>{{ comment.title}}</td>
+                <td>{{ comment.contents}}</td>
+                <td>{{ comment.writer}}</td>
+                <td>{{ comment.create_date}}</td>
+                {% if request.user == comment.writer %}
                 <td>
-                    <button onclick="location.href='/comment/update/{{ post.id}}'">수정</button >
-                    <button onclick="location.href='/comment/delete/{{ post.id}}'">삭제</button >
+                    <button onclick="location.href='/comment/update/{{ comment.id}}'">수정</button >
+                    <button onclick="location.href='/comment/delete/{{ comment.id}}'">삭제</button >
                 </td>
                 {% endif %}
             </tr>

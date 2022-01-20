@@ -15,23 +15,23 @@
             <th> [기능]</th>
             <th> [좋아요]</th>
         </thread>
-        {% if posts %}
-            {% for post in posts %}
+        {% if comments %}
+            {% for comment in comments %}
                 <tr>
-                    <td>{{ post.id}}</td>
-                    <td>{{ post.title}}</td>
-                    <td>{{ post.contents}}</td>
-                    <td>{{ post.writer}}</td>
-                    <td>{{ post.create_date}}</td>
-                    <td><button onclick="location.href='/comment/read/{{ post.id}}'">이동</button></td>
+                    <td>{{ comment.id}}</td>
+                    <td>{{ comment.title}}</td>
+                    <td>{{ comment.contents}}</td>
+                    <td>{{ comment.writer}}</td>
+                    <td>{{ comment.create_date}}</td>
+                    <td><button onclick="location.href='/comment/read/{{ comment.id}}'">이동</button></td>
                     <td>
-                        <h3 onclick="sendLike( {{ post.id }}, this)" class="col-2">
-                        {% if user in post.like.all %}
+                        <h3 onclick="sendLike( {{ comment.id }}, this)" class="col-2">
+                        {% if user in comment.like.all %}
                             ❤
                         {% else %}
                             🤍
                         {% endif %}
-                        {{ post.like.count }}
+                        {{ comment.like.count }}
                         </h3>
                     </td>
                 </tr>

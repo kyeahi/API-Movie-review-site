@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from board.forms import BoardForm
 from board.models import Board
+from comment.models import Comment
 
 # 게시글 등록 함수
 @login_required(login_url='/users/login')
@@ -25,7 +26,8 @@ def list(request):
 
 def read(request, bid):
     post = Board.objects.get(Q(id=bid))
-    return render(request, 'board/read.html', {'post': post})
+    comments = Comment.objects.filter(board_id=bid)  # 게시글에 달린 코멘트들만 불러와서 comment라는 변수에 저장함
+    return render(request, 'board/read.html', {'post': post, 'comments': comments})
 
 # 게시글 삭제 함수
 @login_required(login_url='/users/login')

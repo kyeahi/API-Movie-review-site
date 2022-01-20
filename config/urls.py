@@ -18,7 +18,7 @@ urlpatterns = [
 
     # 댓글
     path('comment/register', comment.views.register),
-    path('comment/list', comment.views.posts),
+    path('comment/list', comment.views.list),
     path('comment/read/<int:bid>', comment.views.read),  # 뒤에 int타입의 변수를 받아 bid에 저장
     path('comment/delete/<int:bid>', comment.views.delete),
     path('comment/update/<int:bid>', comment.views.update),

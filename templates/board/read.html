@@ -43,9 +43,40 @@
                                         <button onclick="location.href='/board/delete/{{ post.id}}'">삭제</button >
                                     </td>
                                 {% endif %}
-                            </tr>
+                           </tr>
                         {% endif %}
                  </table>
+            </div>
+            <div>
+                <table>
+                    <thread>
+                        <th> [댓글제목]</th>
+                        <th> [댓글내용]</th>
+                        <th> [작성자]</th>
+                        <th> [좋아요]</th>
+                        <th> [기능]</th>
+                    </thread>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <tr>
+                                <td>{{ comment.title}}</td>
+                                <td>{{ comment.contents}}</td>
+                                <td>{{ comment.writer}}</td>
+                                <td>
+                                    <h3 onclick="sendLike( {{ comment.id }}, this)" class="col-2">
+                                    {% if user in comment.like.all %}
+                                        ❤
+                                    {% else %}
+                                        🤍
+                                    {% endif %}
+                                    {{ comment.like.count }}
+                                    </h3>
+                                </td>
+                                <td><button onclick="location.href='/comment/read/{{ comment.id}}'">이동</button></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
             </div>
         </nav>
     </body>

@@ -21,14 +21,14 @@ def register(request):
             return redirect('/comment/register')
 
 # 코멘트 목록을 뿌려주는 함수
-def posts(request):
-    posts = Comment.objects.all()
-    return render(request, 'comment/list.html', {'posts': posts})
+def list(request):
+    comments = Comment.objects.all()
+    return render(request, 'comment/list.html', {'comments': comments})
 
 # 코멘트 하나를 읽는 함수
 def read(request, bid):
-    post = Comment.objects.get(Q(id=bid))
-    return render(request, 'comment/read.html', {'post': post})
+    comment = Comment.objects.get(Q(id=bid))
+    return render(request, 'comment/read.html', {'comment': comment})
 
 # 코멘트 삭제 함수
 @login_required(login_url='/users/login')
