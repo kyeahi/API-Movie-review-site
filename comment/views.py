@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from comment.forms import CommentForm
 from comment.models import Comment
 
+
 #코멘트 등록 함수
 @login_required(login_url='/users/login')
 def register(request):
@@ -20,7 +21,6 @@ def register(request):
             return redirect('/comment/register')
 
 # 코멘트 목록을 뿌려주는 함수
-@login_required(login_url='/users/login')
 def posts(request):
     posts = Comment.objects.all()
     return render(request, 'comment/list.html', {'posts': posts})
@@ -35,7 +35,7 @@ def read(request, bid):
 def delete(request, bid):
     post = Comment.objects.get(Q(id=bid))
     if request.user != post.writer:
-        return render(request, 'comment/urNotLoginUser.html')
+        return render(request, 'users/urNotLoginUser.html')
     post.delete()
     return redirect('/comment/list')
 

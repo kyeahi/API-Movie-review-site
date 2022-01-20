@@ -37,7 +37,8 @@
                 </tr>
             {% endfor %}
         {% endif %}
-        <script>
+    </table>
+    <script>
             function sendLike(bid, event) {
                 var httpRequest = new XMLHttpRequest();
                 httpRequest.onreadystatechange = function() {
@@ -53,11 +54,10 @@
                         }
                     }
                 };
-                httpRequest.open("GET", "/comment/Like/" + bid, true);
+                httpRequest.open("GET", "/comment/like/" + bid, true);
                 httpRequest.send();
             }
-        </script>
-    </table>
+    </script>
 </body>
 </html>
 
