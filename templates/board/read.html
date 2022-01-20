@@ -15,15 +15,13 @@
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/logout">로그아웃</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/pchange">비밀번호변경</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8">회원탈퇴</button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/register">댓글등록</a></button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/list">댓글목록</a></button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/board/register">게시글등록</a></button>
                 </ul>
             </div>
+            <!--   게시글 내용 출력 기능    -->
             <div>
                  <table>
                         <thread>
-                            <th> 제목 </th>
+                            <th> 제목</th>
                             <th> 개봉일자 </th>
                             <th> 감독 </th>
                             <th> 캐스팅 </th>
@@ -47,6 +45,7 @@
                         {% endif %}
                  </table>
             </div>
+            <!--   댓글 출력 기능   -->
             <div>
                 <table>
                     <thread>
@@ -72,12 +71,39 @@
                                     {{ comment.like.count }}
                                     </h3>
                                 </td>
-                                <td><button onclick="location.href='/comment/read/{{ comment.id}}'">이동</button></td>
+                                <td><button onclick="location.href='/comment/read/{{ comment.id}}'">댓글보기</button></td>
                             </tr>
                         {% endfor %}
                     {% endif %}
                 </table>
             </div>
+            <div>
+<!--   댓글 작성 기능   -->
+                <form action="/comment/register/{{post.id}}" method="post">
+                    {% csrf_token %}
+                    {{ commentForm }}
+                    <input type = "submit" value = 댓글등록>
+                </form>
+            </div>
         </nav>
+        <script>
+            function sendLike(cid, event) {
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
+                        var json = JSON.parse(httpRequest.responseText);
+                        if (json['message'] == 'add' ) {
+                            event.innerText = "❤"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        } else if (json['message'] == 'del' ) {
+                            event.innerText = "🤍"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        }
+                    }
+                };
+                httpRequest.open("GET", "/comment/like/" + cid, true);
+                httpRequest.send();
+            }
+        </script>
     </body>
 </html>

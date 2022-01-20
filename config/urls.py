@@ -17,12 +17,12 @@ urlpatterns = [
     path('board/like/<int:bid>', board.views.like),
 
     # 댓글
-    path('comment/register', comment.views.register),
+    path('comment/register/<int:bid>', comment.views.register), # bid로 게시글의 인덱스를 받음
     path('comment/list', comment.views.list),
-    path('comment/read/<int:bid>', comment.views.read),  # 뒤에 int타입의 변수를 받아 bid에 저장
-    path('comment/delete/<int:bid>', comment.views.delete),
-    path('comment/update/<int:bid>', comment.views.update),
-    path('comment/like/<int:bid>', comment.views.like),
+    path('comment/read/<int:cid>', comment.views.read),
+    path('comment/delete/<int:cid>', comment.views.delete),
+    path('comment/update/<int:cid>', comment.views.update),
+    path('comment/like/<int:cid>', comment.views.like),
 
     #유저
     path('users/pchange', users.views.pchange),

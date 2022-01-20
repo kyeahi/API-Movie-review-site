@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from board.forms import BoardForm
 from board.models import Board
 from comment.models import Comment
+from comment.forms import CommentForm
 
 # 게시글 등록 함수
 @login_required(login_url='/users/login')
@@ -27,7 +28,8 @@ def list(request):
 def read(request, bid):
     post = Board.objects.get(Q(id=bid))
     comments = Comment.objects.filter(board_id=bid)  # 게시글에 달린 코멘트들만 불러와서 comment라는 변수에 저장함
-    return render(request, 'board/read.html', {'post': post, 'comments': comments})
+    commentForm = CommentForm()                      # 코멘트 작성 폼을 저장해서 HTML에 보내줌
+    return render(request, 'board/read.html', {'post': post, 'comments': comments, 'commentForm': commentForm})
 
 # 게시글 삭제 함수
 @login_required(login_url='/users/login')
