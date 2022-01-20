@@ -36,11 +36,13 @@
                                     <td>
                                         <h3 onclick="sendLike( {{ post.id }}, this)" class="col-2">
                                         {% if user in post.like.all %}
-                                            ❤
+                                            ♥
                                         {% else %}
-                                            🤍
+                                            ♡
                                         {% endif %}
-                                        {{ post.like.count }}
+                                        </h3>
+                                        <h3>
+                                             {{ post.like.count }}
                                         </h3>
                                     </td>
                                     <td><button onclick="location.href='/board/read/{{post.id}}'">이동</button></td>
@@ -58,10 +60,10 @@
                         var json = JSON.parse(httpRequest.responseText);
 
                         if (json['message'] == 'add' ) {
-                            event.innerText = "❤"
+                            event.innerText = "♥"
                             event.nextSibling.nextSibling.innerText = json['like_cnt'];
                         } else if (json['message'] == 'del' ) {
-                            event.innerText = "🤍"
+                            event.innerText = "♡"
                             event.nextSibling.nextSibling.innerText = json['like_cnt'];
                         }
                     }

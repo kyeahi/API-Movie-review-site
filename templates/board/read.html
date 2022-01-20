@@ -64,11 +64,13 @@
                                 <td>
                                     <h3 onclick="sendLike( {{ comment.id }}, this)" class="col-2">
                                     {% if user in comment.like.all %}
-                                        ❤
+                                        ♥
                                     {% else %}
-                                        🤍
+                                        ♡
                                     {% endif %}
-                                    {{ comment.like.count }}
+                                    </h3>
+                                    <h3>
+                                        {{ comment.like.count }}
                                     </h3>
                                 </td>
                                 <td><button onclick="location.href='/comment/read/{{ comment.id}}'">댓글보기</button></td>
@@ -93,10 +95,10 @@
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
                         var json = JSON.parse(httpRequest.responseText);
                         if (json['message'] == 'add' ) {
-                            event.innerText = "❤"
+                            event.innerText = "♥"
                             event.nextSibling.nextSibling.innerText = json['like_cnt'];
                         } else if (json['message'] == 'del' ) {
-                            event.innerText = "🤍"
+                            event.innerText = "♡"
                             event.nextSibling.nextSibling.innerText = json['like_cnt'];
                         }
                     }

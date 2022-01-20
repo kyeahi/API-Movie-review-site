@@ -1,19 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+# 데이터베이스에 저장될 영화게시글 클래스
 class Board(models.Model):
-    like = models.ManyToManyField(User, related_name='board_likes', blank=True)
-    title = models.CharField(max_length=100)
-    contents = models.TextField()
-    director = models.CharField(max_length=50)
-    cast = models.CharField(max_length=50, blank=True)
-    cast2 = models.CharField(max_length=50, blank=True)
-    cast3 = models.CharField(max_length=50, blank=True)
-    cast4 = models.CharField(max_length=50, blank=True)
-    writer = models.ForeignKey(User, on_delete=models.CASCADE)  # 유저가 탈퇴하면 댓글도 삭제됨
-#    board = models.ForeignKey(Board, on_delete=models.CASCADE)  # 게시글이 사라지면 댓글도 삭제됨
-    opening_date = models.TextField(max_length=50)
-    create_date = models.DateTimeField(auto_now_add=True)
-
-    fields = ('title', 'opening_date', 'director', 'cast', 'cast2', 'cast3', 'cast4', 'contents')
+    like = models.ManyToManyField(User, related_name='board_likes', blank=True) # 좋아요
+    title = models.CharField(max_length=100)                                    # 영화제목
+    contents = models.TextField()                                               # 영화내용
+    director = models.CharField(max_length=50)                                  # 영화감독
+    cast = models.CharField(max_length=50, blank=True)                          # 배우
+    cast2 = models.CharField(max_length=50, blank=True)                         # 배우2
+    cast3 = models.CharField(max_length=50, blank=True)                         # 배우3
+    cast4 = models.CharField(max_length=50, blank=True)                         # 배우4
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)                  # 작성자. 작성자가 탈퇴하면 게시글도 삭제됨
+    opening_date = models.TextField(max_length=50)                              # 영화개봉일
+    create_date = models.DateTimeField(auto_now_add=True)                       # 게시글 작성일. 우리는 생성만 해뒀다. 사용x
