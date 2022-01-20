@@ -41,8 +41,8 @@ def delete(request, bid):
 def update(request, bid):
     post = Board.objects.get(Q(id=bid))
     if request.method == "GET":
-        boardForm = BoardForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존코멘트를 다시 보내줘야함. 수정창이 뜸
-        return render(request, 'board/update.html', {'boardForm':boardForm})    #
+        boardForm = BoardForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존게시글을 다시 보내줘야함. 수정창이 뜸
+        return render(request, 'board/update.html', {'boardForm': boardForm})    #
     elif request.method == "POST":
         boardForm = BoardForm(request.POST)
         if boardForm.is_valid():

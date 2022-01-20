@@ -39,8 +39,8 @@
                                 <td> {{ post.contents }} </td>
                                 {% if request.user == post.writer %}
                                     <td>
-                                        <button onclick="location.href='/comment/update/{{ post.id}}'">수정</button >
-                                        <button onclick="location.href='/comment/delete/{{ post.id}}'">삭제</button >
+                                        <button onclick="location.href='/board/update/{{ post.id}}'">수정</button >
+                                        <button onclick="location.href='/board/delete/{{ post.id}}'">삭제</button >
                                     </td>
                                 {% endif %}
                             </tr>
