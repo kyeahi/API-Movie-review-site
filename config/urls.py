@@ -1,18 +1,17 @@
 from django.contrib import admin
 from django.urls import path
-import user.views
+import users.views
 import comment.views
 import board.views
-import user.views
 
 urlpatterns = [
 
     #유저
-    path('user/pchange', user.views.pchange),
-    path('user/signup', user.views.usersignup),
-    path('user/login', user.views.userlogout),
-    path('user/logout', user.views.userlogout),
-    path('users/delete', user.views.userDelete),
+    path('users/pchange', users.views.pchange),
+    path('users/signup', users.views.signup),
+    path('users/login', users.views.userlogin),
+    path('users/logout', users.views.userlogout),
+    path('users/delete', users.views.userDelete),
 
     path('base', board.views.list), # 메인 페이지
     path('', board.views.list),     # 이것도 메인페이지로 한다.
