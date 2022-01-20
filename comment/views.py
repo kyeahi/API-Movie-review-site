@@ -43,16 +43,19 @@ def delete(request, bid):
 @login_required(login_url='/users/login')
 def update(request, bid):
     post = Comment.objects.get(Q(id=bid))
-    if request.method == "GET":     # GET 방식, commentUpdate/9 방식으로 접속하면
-        commentForm = CommentForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존코멘트를 다시 보내줘야함. 수정창이 뜸
-        return render(request, 'comment/update.html', {'commentForm':commentForm})    #
-    elif request.method == "POST":
-        commentForm = CommentForm(request.POST)
-        if commentForm.is_valid():
-            post.title = commentForm.cleaned_data['title']
-            post.contents = commentForm.cleaned_data['contents']
-            post.save()
-            return redirect('/comment/read/' + str(bid))
+    if request.user != post.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
+        return render(request, 'users/urNotLoginUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
+    else:                                                   # 로그인한 유저가 맞으면
+        if request.method == "GET":                         # 아래 코드 실행
+            commentForm = CommentForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존코멘트를 다시 보내줘야함. 수정창이 뜸
+            return render(request, 'comment/update.html', {'commentForm':commentForm})
+        elif request.method == "POST":
+            commentForm = CommentForm(request.POST)
+            if commentForm.is_valid():
+                post.title = commentForm.cleaned_data['title']
+                post.contents = commentForm.cleaned_data['contents']
+                post.save()
+                return redirect('/comment/read/' + str(bid))
 
 # 코멘트 좋아요 함수
 @login_required(login_url='/users/login')
