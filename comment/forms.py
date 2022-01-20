@@ -6,3 +6,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('title', 'contents')
+# 제목, 내용

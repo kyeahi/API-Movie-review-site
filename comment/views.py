@@ -41,13 +41,13 @@ def read(request, cid):
 
 # 댓글 삭제 함수
 # 입력 : 사용자, 댓글번호
-# 기능 : 작성자와 사용자가 동일하면 삭제, 동일하지 않으면 삭제안함.
+# 기능 : 작성자와 사용자가 동일하면 삭제, 동일하지 않으면 삭제안하고 '적절한 사용자가 아닙니다.'라는 HTML 실행.
 # 출력 :
 @login_required(login_url='/users/login')
 def delete(request, cid):
     comment = Comment.objects.get(Q(id=cid))
     if request.user != comment.writer:
-        return render(request, 'users/urNotLoginUser.html')
+        return render(request, 'users/urNotRightUser.html')
     comment.delete()
     return redirect('/comment/list')
 
@@ -57,11 +57,11 @@ def delete(request, cid):
 @login_required(login_url='/users/login')
 def update(request, cid):
     comment = Comment.objects.get(Q(id=cid))
-    if request.user != comment.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
-        return render(request, 'users/urNotLoginUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
+    if request.user != comment.writer:                      # 로그인한 유저랑 작성자랑 같지 않으면
+        return render(request, 'users/urNotRightUser.html') # 적절한 유저가 아니라는 HTML을 보여줌
     else:                                                   # 로그인한 유저가 맞으면
         if request.method == "GET":                         # 아래 코드 실행
-            commentForm = CommentForm(instance=comment) # 이번엔 비어있게 주는게 아님. 기존코멘트를 다시 보내줘야함. 수정창이 뜸
+            commentForm = CommentForm(instance=comment)     # 이번엔 비어있게 주는게 아님. 기존코멘트를 다시 보내줘야함. 수정창이 뜸
             return render(request, 'comment/update.html', {'commentForm':commentForm})
         elif request.method == "POST":
             commentForm = CommentForm(request.POST)

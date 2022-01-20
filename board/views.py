@@ -36,7 +36,7 @@ def read(request, bid):
 def delete(request, bid):
     post = Board.objects.get(Q(id=bid))
     if request.user != post.writer:
-        return render(request, 'users/urNotLoginUser.html')
+        return render(request, 'users/urNotRightUser.html')
     post.delete()
     return redirect('/board/list')
 
@@ -45,7 +45,7 @@ def delete(request, bid):
 def update(request, bid):
     post = Board.objects.get(Q(id=bid))
     if request.user != post.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
-        return render(request, 'users/urNotLoginUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
+        return render(request, 'users/urNotRightUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
     else:                                                   # 로그인한 유저가 맞으면
         if request.method == "GET":                         # 아래 코드 실행
             boardForm = BoardForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존게시글을 다시 보내줘야함. 수정창이 뜸
