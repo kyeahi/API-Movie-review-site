@@ -17,19 +17,29 @@ from django.contrib import admin
 from django.urls import path
 import users.views
 import comment.views
+import board.views
 
 urlpatterns = [
-    path('base', users.views.base),
-    path('users/pchange', users.views.pchange),
-    path('users/signup', users.views.signup),
-    path('users/delete', users.views.userDelete),
-    path('users/login', users.views.userlogin),
-    path('users/logout', users.views.userlogout),
+    path('base', board.views.list), # 메인 페이지
+    path('', board.views.list),     # 이것도 메인페이지로 한다.
 
+    # 게시글
+    path('board/register', board.views.register),
+    path('board/list', board.views.list),
+    path('board/read/<int:bid>', board.views.read),
+
+    # 댓글
     path('comment/register', comment.views.register),
     path('comment/list', comment.views.posts),
     path('comment/read/<int:bid>', comment.views.read),  # 뒤에 int타입의 변수를 받아 bid에 저장
     path('comment/delete/<int:bid>', comment.views.delete),
     path('comment/update/<int:bid>', comment.views.update),
     path('comment/like/<int:bid>', comment.views.like),
+
+    #유저
+    path('users/pchange', users.views.pchange),
+    path('users/signup', users.views.signup),
+    path('users/delete', users.views.userDelete),
+    path('users/login', users.views.userlogin),
+    path('users/logout', users.views.userlogout),
 ]

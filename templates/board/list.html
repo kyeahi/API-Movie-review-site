@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
     </head>
     <body id="page-top">
         <nav>
@@ -19,5 +18,28 @@
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/board/register">게시글등록</a></button>
                 </ul>
             </div>
+            <div>
+                 <table>
+                        <thread>
+                            <th> 제목 </th>
+                            <th> 개봉일자 </th>
+                            <th> 감독 </th>
+                            <th> 캐스팅 </th>
+                            <th> 내용 </th>
+                        </thread>
+                        {% if posts %}
+                            {% for post in posts %}
+                                <tr>
+                                    <td> {{ post.title }} </td>
+                                    <td> {{ post.opening_date}}</td>
+                                    <td> {{ post.director }} </td>
+                                    <td> {{ post.cast }} {{post.cast2}} {{post.cast3}} {{post.cast4}} </td>
+                                    <td> {{ post.contents }} </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                 </table>
+            </div>
         </nav>
     </body>
+</html>
