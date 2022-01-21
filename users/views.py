@@ -52,8 +52,8 @@ def change_password(request):
             return redirect('/users/change_password')
 
 @login_required(login_url='/users/login')
-def userdelete(request):
+def delete(request):
     if request.method == 'POST':
         request.user.delete()
         return redirect('/base')
-    return render(request, 'users/userdelete.html')
+    return render(request, 'users/delete.html')
