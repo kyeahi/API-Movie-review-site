@@ -12,6 +12,7 @@ from comment.forms import CommentForm
 def register(request):
     if request.method == "GET":
         boardForm = BoardForm()
+
         return render(request, 'board/register.html', {'boardForm': boardForm})
     elif request.method == "POST":
         boardForm = BoardForm(request.POST)
