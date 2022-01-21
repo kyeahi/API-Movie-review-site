@@ -16,7 +16,6 @@
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/change_password">비밀번호변경</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/delete">회원탈퇴</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/board/register">게시글등록</a></button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/register">댓글등록</a></button>
                 </ul>
             </div>
             <div>
@@ -34,7 +33,9 @@
                                 <tr>
                                      <td>
                                         {% if post.poster %}
-                                            <img width=150 height=200 src="{{post.poster}}">
+                                         <a href="/board/read/{{post.id}}">
+                                            <img width=150 height=200 src="{{post.poster}}" >
+                                         </a>
                                         {% endif %}
                                     </td>
                                     <td> {{ post.title }} </td>
@@ -52,7 +53,12 @@
                                              {{ post.like.count }}
                                         </h3>
                                     </td>
-                                    <td><button onclick="location.href='/board/read/{{post.id}}'">이동</button></td>
+                                    <td>
+                                        {% if request.user == post.writer %}
+                                            <button onclick="location.href='/board/update/{{ post.id}}'">수정</button >
+                                            <button onclick="location.href='/board/delete/{{ post.id}}'">삭제</button >
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         {% endif %}

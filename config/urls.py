@@ -28,7 +28,7 @@ urlpatterns = [
 
     #유저
     path('users/signup', users.views.signup),                   # 유저 회원가입
-    path('users/delete', users.views.delete),               # 유저 삭제
+    path('users/delete', users.views.delete),                   # 유저 삭제
     path('users/login', users.views.userlogin),                 # 유저 로그인
     path('users/logout', users.views.userlogout),               # 유저 로그아웃
     path('users/change_password', users.views.change_password), # 유저 패스워드 변경]
