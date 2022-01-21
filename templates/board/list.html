@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>board list</title>
     </head>
     <body>
         <nav>
@@ -13,14 +13,16 @@
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/signup">회원가입</a></button>
                 <button class="css-jt7ti-StylelessButton-LoginButton e1cl8ith7"><a href="/users/login">로그인</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/logout">로그아웃</a></button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/pchange">비밀번호변경</a></button>
-                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8">회원탈퇴</button>
+                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/chang_password">비밀번호변경</a></button>
+                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/users/delete">회원탈퇴</a></button>
                 <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/board/register">게시글등록</a></button>
+                <button class="css-1e1usq6-StylelessButton-SignUpButton e1cl8ith8"><a href="/comment/register">댓글등록</a></button>
                 </ul>
             </div>
             <div>
                  <table>
                         <thread>
+                            <th> 포스터 </th>
                             <th> [제목] </th>
                             <th> [개봉일자] </th>
                             <th> [감독] </th>
@@ -30,6 +32,11 @@
                         {% if posts %}
                             {% for post in posts %}
                                 <tr>
+                                     <td>
+                                        {% if post.poster %}
+                                        <img src="{{ post.poster.url }}">
+                                        {% endif %}
+                                    </td>
                                     <td> {{ post.title }} </td>
                                     <td> {{ post.opening_date}}</td>
                                     <td> {{ post.director }} </td>

@@ -12,13 +12,16 @@ from comment.forms import CommentForm
 def register(request):
     if request.method == "GET":
         boardForm = BoardForm()
-
         return render(request, 'board/register.html', {'boardForm': boardForm})
     elif request.method == "POST":
         boardForm = BoardForm(request.POST)
         if boardForm.is_valid():
             board = boardForm.save(commit=False)
             board.writer=request.user
+            try:
+                board.poster = request.FILES['poster']
+            except:
+                pass
             board.save()
             return redirect('/board/register')
 
@@ -50,14 +53,19 @@ def update(request, bid):
     if request.user != post.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
         return render(request, 'users/urNotRightUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
     else:                                                   # 로그인한 유저가 맞으면
-        if request.method == "GET":                         # 아래 코드 실행
-            boardForm = BoardForm(instance=post) # 이번엔 비어있게 주는게 아님. 기존게시글을 다시 보내줘야함. 수정창이 뜸
-            return render(request, 'board/update.html', {'boardForm': boardForm})    #
+        if request.method == "GET":                         # GET 방식일 경우
+            boardForm = BoardForm(instance=post)            # 기존게시글의 내용을 저장해서
+            return render(request, 'board/update.html', {'boardForm': boardForm})  # 수정창에 보이게 함
         elif request.method == "POST":
             boardForm = BoardForm(request.POST)
             if boardForm.is_valid():
                 post.title = boardForm.cleaned_data['title']
                 post.contents = boardForm.cleaned_data['contents']
+                try:
+                    post.poster = boardForm.cleaned_data['poster']
+                    post.poster = request.FILES['poster']
+                except:
+                    pass
                 post.save()
                 return redirect('/board/read/' + str(bid))
 

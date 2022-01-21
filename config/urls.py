@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 import users.views
 import comment.views
@@ -25,10 +27,9 @@ urlpatterns = [
     path('comment/like/<int:cid>', comment.views.like),         # 댓글 좋아요. 댓글번호 = cid
 
     #유저
-    path('users/pchange', users.views.pchange),         # 유저 패스워드 변경
-    path('users/signup', users.views.signup),           # 유저 회원가입
-    path('users/delete', users.views.userDelete),       # 유저 삭제
-    path('users/login', users.views.userlogin),         # 유저 로그인
-    path('users/logout', users.views.userlogout),
-]
-# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('users/signup', users.views.signup),                   # 유저 회원가입
+    path('users/delete', users.views.userdelete),               # 유저 삭제
+    path('users/login', users.views.userlogin),                 # 유저 로그인
+    path('users/logout', users.views.userlogout),               # 유저 로그아웃
+    path('users/change_password', users.views.change_password), # 유저 패스워드 변경]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

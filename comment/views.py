@@ -1,3 +1,4 @@
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
@@ -14,7 +15,10 @@ from board.models import Board
 @login_required(login_url='/users/login')
 def register(request, bid):
     post = Board.objects.get(Q(id=bid))             # 게시글번호를 post 변수에 저장함
-    if request.method == "POST":                    # POST 방식으로 입력받으면
+    if request.method == "GET":
+        commentForm = CommentForm()
+        return render(request, 'comment/register.html', {'commentForm': commentForm})
+    elif request.method == "POST":                  # POST 방식으로 입력받으면
         commentForm = CommentForm(request.POST)     # 입력받은 댓글양식을 commentForm이라는 변수에 저장함
         if commentForm.is_valid():                  # 양식이 올바르면
             comment = commentForm.save(commit=False)# comment라는 변수에 댓글양식을 저장한다.
