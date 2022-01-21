@@ -42,18 +42,20 @@ def read(request, cid):
 # 댓글 삭제 함수
 # 입력 : 사용자, 댓글번호
 # 기능 : 작성자와 사용자가 동일하면 삭제, 동일하지 않으면 삭제안하고 '적절한 사용자가 아닙니다.'라는 HTML 실행.
-# 출력 :
+# 출력 : 댓글이 지워질 게시글 목록으로 돌아감
 @login_required(login_url='/users/login')
 def delete(request, cid):
     comment = Comment.objects.get(Q(id=cid))
+    bid = comment.board_id
     if request.user != comment.writer:
         return render(request, 'users/urNotRightUser.html')
     comment.delete()
-    return redirect('/comment/list')
+    return redirect('/board/read/'+str(bid))
 
 # 댓글 수정 함수
-# 입력 :
-# 출력 :
+# 입력 : 사용자, 댓글번호
+# 기능 : 작성자와 사용자가 동일하면 댓글수정HTML을 보여줌, 댓글을 입력받으면 다시 DB에 저장함.
+# 출력 : 댓글이 수정될 게시글 목록으로 돌아감.
 @login_required(login_url='/users/login')
 def update(request, cid):
     comment = Comment.objects.get(Q(id=cid))
@@ -72,8 +74,9 @@ def update(request, cid):
                 return redirect('/board/read/'+str(comment.board_id))     # 수정하고 기존 게시글로 돌아감
 
 # 댓글 좋아요 함수
-# 입력 :
-# 출력 :
+# 입력 : 사용자, 댓글번호
+# 기능 : 좋아요를 이미 누른 사용자인지 확인, 이미 눌렀으면 좋아요 감소, 안눌렀으면 좋아요 증가
+# 출력 : Json으로 add, del 중 하나의 메시지와 like_cnt를 보내줌.
 @login_required(login_url='/users/login')
 def like(request, cid):
     comment = Comment.objects.get(Q(id=cid))

@@ -21,10 +21,12 @@ def register(request):
             board.save()
             return redirect('/board/register')
 
+# 게시글 전부 출력하는 함수.
 def list(request):
     posts = Board.objects.all()
     return render(request, 'board/list.html', {'posts': posts})
 
+# 게시글 하나만 읽는 함수.
 def read(request, bid):
     post = Board.objects.get(Q(id=bid))
     comments = Comment.objects.filter(board_id=bid)  # 게시글에 달린 코멘트들만 불러와서 comment라는 변수에 저장함
@@ -58,6 +60,7 @@ def update(request, bid):
                 post.save()
                 return redirect('/board/read/' + str(bid))
 
+#게시글 좋아요 함수.
 @login_required(login_url='/users/login')
 def like(request, bid):
     post = Board.objects.get(Q(id=bid))
