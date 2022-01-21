@@ -16,4 +16,13 @@
                     <label for="passwordcheck">비밀번호 확인</label>
                 </div>
                 <button id="submitButton" type="submit">가입</button>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %}
+                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
             </form>

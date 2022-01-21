@@ -1,3 +1,8 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div class="span3">
+
 
     <h2>로그인</h2>
 
@@ -11,5 +16,16 @@
                     <input name="password" class="form-control" id="password" type="password" placeholder="비밀번호입력" data-sb-validations="required,email" />
                     <label for="password">비밀번호</label>
                 </div>
-                <button id="submitButton" type="submit">로그인</button>
+                <button id="submitButton" type="submit" class="btn btn-primary pull-right">로그인</button>
             </form>
+                    {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %}
+                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+</div>
+
+

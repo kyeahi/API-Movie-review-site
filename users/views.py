@@ -1,5 +1,4 @@
-
-
+from django.contrib import messages
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -19,6 +18,10 @@ def signup(request):
         if signupForm.is_valid():
             signupForm.save()
             return redirect('/base')
+        else:
+            messages.info(request, '아이디와 비밀번호가 일치하지 않습니다.')
+            return redirect('/users/signup')
+
 
 
 def userlogin(request):
@@ -33,6 +36,7 @@ def userlogin(request):
             login(request, loginForm.get_user())
             return redirect('/base')
         else:
+            messages.info(request, '아이디와 비밀번호가 올바르지 않습니다.')
             return redirect('/users/login')
 
 def userlogout(request):
@@ -55,6 +59,7 @@ def change_password(request):
             update_session_auth_hash(request, user)
             return redirect('/base')
         else:
+            messages.info(request, '새 비밀번호가 올바르지 않습니다.')
             return redirect('/users/change_password')
 
 @login_required(login_url='/users/login')
