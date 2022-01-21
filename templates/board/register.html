@@ -6,7 +6,7 @@
 </head>
 <body>
     <button onclick="location.href='/base'">목록</button >
-    <form action="/board/register" method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ boardForm }}
         <input type = "submit">

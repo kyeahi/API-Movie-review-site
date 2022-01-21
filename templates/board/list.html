@@ -23,6 +23,7 @@
             <div>
                  <table>
                         <thread>
+                            <th> 포스터 </th>
                             <th> 제목 </th>
                             <th> 개봉일자 </th>
                             <th> 감독 </th>
@@ -32,6 +33,11 @@
                         {% if posts %}
                             {% for post in posts %}
                                 <tr>
+                                    <td>
+                                        {% if post.poster %}
+                                        <img src="{{ post.poster.url }}">
+                                        {% endif %}
+                                    </td>
                                     <td> {{ post.title }} </td>
                                     <td> {{ post.opening_date}}</td>
                                     <td> {{ post.director }} </td>

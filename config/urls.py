@@ -1,8 +1,10 @@
-from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 import users.views
 import comment.views
 import board.views
+
 
 urlpatterns = [
 
@@ -32,6 +34,4 @@ urlpatterns = [
     path('comment/update/<int:bid>', comment.views.update),
     path('comment/like/<int:bid>', comment.views.like),
 
-
-
-]
+]+ static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

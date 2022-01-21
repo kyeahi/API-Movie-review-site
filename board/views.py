@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from board.forms import BoardForm
 from board.models import Board
+
+
 
 # 게시글 등록 함수
 @login_required(login_url='/user/login')
@@ -12,11 +14,23 @@ def register(request):
         boardForm = BoardForm()
         return render(request, 'board/register.html', {'boardForm': boardForm})
     elif request.method == "POST":
+
         boardForm = BoardForm(request.POST)
+
         if boardForm.is_valid():
             board = boardForm.save(commit=False)
             board.writer=request.user
+
+            try:
+                board.poster = request.FILES['poster']
+            except:
+                pass
+
             board.save()
+            context = { 'boardForm' : boardForm}
+            return redirect('/board/list')
+
+        else:
             return redirect('/board/register')
 
 def list(request):
