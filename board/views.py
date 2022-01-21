@@ -25,7 +25,7 @@ def register(request):
 # 게시글 전부 출력하는 함수.
 def list(request):
     posts = Board.objects.all()
-    return render(request, 'board/list.html', {'posts': posts})
+    return render(request, 'board/list.html', {'posts': posts} )
 
 # 게시글 하나만 읽는 함수.
 def read(request, bid):

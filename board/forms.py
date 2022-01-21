@@ -1,6 +1,5 @@
 from django import forms
 from .models import Board
-from .models import FileUpload
 
 # 영화 게시글 작성, 수정 양식
 class BoardForm(forms.ModelForm):

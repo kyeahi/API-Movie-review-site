@@ -5,10 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 
-
-def base(request):
-    return render(request, 'layout/base.html')
-
 def signup(request):
     if request.method == "GET":
         signupForm = UserCreationForm(request.GET)
@@ -58,8 +54,8 @@ def change_password(request):
             return redirect('/users/change_password')
 
 @login_required(login_url='/users/login')
-def user_delete(request):
+def userdelete(request):
     if request.method == 'POST':
         request.user.delete()
         return redirect('/base')
-    return render(request, 'users/user_delete.html')
+    return render(request, 'users/delete.html')
