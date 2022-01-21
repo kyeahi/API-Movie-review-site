@@ -18,10 +18,6 @@ def register(request):
         if boardForm.is_valid():
             board = boardForm.save(commit=False)
             board.writer=request.user
-            try:
-                board.poster = request.FILES['poster']
-            except:
-                pass
             board.save()
             return redirect('/board/register')
 
@@ -61,11 +57,13 @@ def update(request, bid):
             if boardForm.is_valid():
                 post.title = boardForm.cleaned_data['title']
                 post.contents = boardForm.cleaned_data['contents']
-                try:
-                    post.poster = boardForm.cleaned_data['poster']
-                    post.poster = request.FILES['poster']
-                except:
-                    pass
+                post.director = boardForm.cleaned_data['director']
+                post.cast = boardForm.cleaned_data['cast']
+                post.cast2 = boardForm.cleaned_data['cast2']
+                post.cast3 = boardForm.cleaned_data['cast3']
+                post.cast4 = boardForm.cleaned_data['cast4']
+                post.poster = boardForm.cleaned_data['poster']
+                post.opening_date = boardForm.cleaned_data['opening_date']
                 post.save()
                 return redirect('/board/read/' + str(bid))
 

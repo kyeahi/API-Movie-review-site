@@ -14,7 +14,7 @@ class Board(models.Model):
     writer = models.ForeignKey(User, on_delete=models.CASCADE)                  # 작성자. 작성자가 탈퇴하면 게시글도 삭제됨
     opening_date = models.TextField(max_length=50)                              # 영화개봉일
     create_date = models.DateTimeField(auto_now_add=True)                       # 게시글 작성일. 우리는 생성만 해뒀다. 사용x
-    poster = models.ImageField(null=True, upload_to="images/", blank=True)      # 포스터
+    poster = models.CharField(max_length=1000, blank=True)                       # 포스터 URL
 
     def __str__(self):
         return self.title
