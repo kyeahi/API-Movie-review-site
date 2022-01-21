@@ -1,3 +1,5 @@
+
+
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -55,7 +57,7 @@ def change_password(request):
         else:
             return redirect('/users/change_password')
 
-@login_required
+@login_required(login_url='/users/login')
 def user_delete(request):
     if request.method == 'POST':
         request.user.delete()
