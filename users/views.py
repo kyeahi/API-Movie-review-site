@@ -1,7 +1,9 @@
+
+
 from django.contrib.auth import login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.contrib import messages
 
 
 def base(request):
@@ -11,16 +13,20 @@ def signup(request):
     if request.method == "GET":
         signupForm = UserCreationForm(request.GET)
         return render(request, 'users/signup.html', {'signupForm': signupForm})
+
     elif request.method == "POST":
         signupForm = UserCreationForm(request.POST)
         if signupForm.is_valid():
             signupForm.save()
             return redirect('/base')
 
+
 def userlogin(request):
     if request.method == "GET":
         loginForm = AuthenticationForm()
-        return render(request, 'users/login.html', {'loginForm':loginForm})
+        return render(request, 'users/login.html',
+                {'loginForm':loginForm})
+
     elif request.method == "POST":
         loginForm = AuthenticationForm(request, request.POST)
         if loginForm.is_valid():
@@ -31,26 +37,29 @@ def userlogin(request):
 
 def userlogout(request):
     logout(request)
-    return redirect('/base')
+    return redirect('/users/login')
 
-def pchange(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, '패스워드 변경 완료!')
+
+@login_required(login_url='/users/login')
+def change_password(request):
+    if request.method == "GET":
+        password_change_form = PasswordChangeForm(request.user)
+        return render(request, 'users/change_password.html',
+                {'password_change_form':password_change_form})
+
+    elif request.method == 'POST':
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
             return redirect('/base')
         else:
-            messages.error(request, 'base.html')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'users/pchange.html', {
-        'form': form
-    })
+            return redirect('/users/change_password')
 
-def userDelete(request):
-    user = request.user
-    user.delete()
-    logout(request)
-    return render(request, 'layout/base.html')
+@login_required(login_url='/users/login')
+def user_delete(request):
+    if request.method == 'POST':
+        request.user.delete()
+        return redirect('/base')
+    return render(request, 'users/user_delete.html')
