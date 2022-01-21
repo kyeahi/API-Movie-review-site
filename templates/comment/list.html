@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>comment list</title>
+</head>
+<body>
+    <table>
+        <thread>
+            <th> [글번호]</th>
+            <th> [제목]</th>
+            <th> [내용]</th>
+            <th> [작성자]</th>
+            <th> [작성일시]</th>
+            <th> [기능]</th>
+            <th> [좋아요]</th>
+        </thread>
+        {% if comments %}
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.id}}</td>
+                    <td>{{ comment.title}}</td>
+                    <td>{{ comment.contents}}</td>
+                    <td>{{ comment.writer}}</td>
+                    <td>{{ comment.create_date}}</td>
+                    <td><button onclick="location.href='/comment/read/{{ comment.id}}'">이동</button></td>
+                    <td>
+                        <h3 onclick="sendLike( {{ comment.id }}, this)" class="col-2">
+                        {% if user in comment.like.all %}
+                            ❤
+                        {% else %}
+                            🤍
+                        {% endif %}
+                        {{ comment.like.count }}
+                        </h3>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+    <script>
+            function sendLike(bid, event) {
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
+                        var json = JSON.parse(httpRequest.responseText);
+
+                        if (json['message'] == 'add' ) {
+                            event.innerText = "❤"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        } else if (json['message'] == 'del' ) {
+                            event.innerText = "🤍"
+                            event.nextSibling.nextSibling.innerText = json['like_cnt'];
+                        }
+                    }
+                };
+                httpRequest.open("GET", "/comment/like/" + bid, true);
+                httpRequest.send();
+            }
+    </script>
+</body>
+</html>
+
+
+

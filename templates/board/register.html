@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>board register</title>
+</head>
+<body>
+    <button onclick="location.href='/base'">목록</button >
+    <form action="/board/register" method="post">
+        {% csrf_token %}
+        {{ boardForm }}
+        <input type = "submit">
+    </form>
+</body>
+</html>

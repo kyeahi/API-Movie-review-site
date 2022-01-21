@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>comment register</title>
+</head>
+<body>
+    <button onclick="location.href='/base'">목록</button >
+    <form action="/comment/register" method="post">
+        {% csrf_token %}
+        {{ commentForm }}
+        <input type = "submit">
+    </form>
+</body>
+</html>
