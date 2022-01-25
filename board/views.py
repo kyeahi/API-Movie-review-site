@@ -6,6 +6,38 @@ from board.forms import BoardForm
 from board.models import Board
 from comment.models import Comment
 from comment.forms import CommentForm
+import requests
+import json
+
+#
+# # 공공데이터 api / 인증키 수정해야함
+# def request_api(request):
+#     res=requests.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=hztiKuQHWROYlgyETY%2FfahobNtI8DSrh2EKGXDyOAdqW0xsxsj8eYKyDBr2EYzAEuZv7u8wW3sg2rDzbATFvIQ%3D%3D&numOfRows=10&pageNo=1&dataType=json&base_date=20220124&base_time=0600&nx=58&ny=125%27)
+#     print(str(res.status_code))
+#     result = json.loads(res.text)
+#     print(result['response']['body']['items']['item'][0]['obsrValue'])
+#     return render(request, 'users/text.html')
+#
+#카카오 인가코드 / 인증키 수정해야함
+# def request_api2(request):
+#     return redirect('https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=7ada8e5a1760a314ddb4e3d101ce930c&redirect_uri=http://127.0.0.1:8000/oauth%27)
+#
+# def request_api3(request):
+#     print(request.GET.get('code'))
+#
+#     headers = {"Content-Type": "application/x-www-form-urlencoded"}
+#     data = {'grant_type':'authorization_code',
+#             'client_id':'7ada8e5a1760a314ddb4e3d101ce930c',
+#             'redirect_uri':'http://127.0.0.1:8000/oauth',
+#             'code':request.GET.get('code')}
+#     res = requests.post('https://kauth.kakao.com/oauth/token', data=data, headers=headers)
+#     print(res.text)
+#
+#     return redirect('/')
+
+
+
+
 
 # 게시글 등록 함수
 @login_required(login_url='/users/login')
