@@ -9,8 +9,11 @@ import board.views
 urlpatterns = [
                   path('base', board.views.list),  # 메인 페이지에서 게시글을 보여준다.
                   path('', board.views.list),  # 이것도 메인페이지로 한다.
-                  path('oauth2', board.views.request_api2),
-                  path('oauth', board.views.request_api3),
+                  #path('oauth2', board.views.request_api2),
+                  #path('oauth', board.views.request_api3),
+
+                  path('test2', board.views.request_api4),
+                  path('test3', board.views.request_api5),
 
                   # 게시글
                   path('board/register', board.views.register),  # 게시글 등록

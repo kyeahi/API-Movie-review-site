@@ -6,8 +6,17 @@ from board.forms import BoardForm
 from board.models import Board
 from comment.models import Comment
 from comment.forms import CommentForm
+from django.core.mail import EmailMessage
 import requests
 import json
+import os.path
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient import errors
+from email.message import EmailMessage
+import base64
 
 #
 # # 공공데이터 api / 인증키 수정해야함
@@ -36,7 +45,55 @@ import json
 #     return redirect('/')
 
 
+def request_api4(request):
+    return redirect(
+        'https://accounts.google.com/o/oauth2/auth?client_id=777210514810-nu0e94sr27f7bh7liqreor1ul654ne3l.apps.googleusercontent.com&redirect_uri=http://127.0.0.1:8000/test2&scope=https://mail.google.com/&response_type=code&access_type=offline')
 
+def request_api5(request):
+    email = EmailMessage(
+        'Hello',                # 제목
+        'Body goes here',       # 내용
+        'from@example.com',     # 보내는 이메일 (settings에서 설정해서 작성안해도 됨)
+        to=['to1@example.com', 'to2@example.com'],)  # 받는 이메일 리스트
+    email.send()
+
+def gmail_authenticate():
+    SCOPES = ['https://mail.google.com/']
+    creds = None
+    if os.path.exists('token.json'):
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+    return build('gmail', 'v1', credentials=creds)
+
+def create_message(sender, to, subject, message_text):
+    message = EmailMessage()
+    message["From"] = sender
+    message["To"] = to.split(",")
+    message["Subject"] = subject
+    message.set_content(message_text)
+    return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode('utf8')}
+
+def send_message(service, user_id, message):
+    try:
+        message = service.users().messages().send(userId=user_id, body=message).execute()
+        print('Message Id: %s' % message['id'])
+        return message
+    except errors.HttpError as error:
+        print('An error occurred: %s' % error)
+
+def main():
+    service = gmail_authenticate()
+    message = create_message("보내는사람", "받는사람", "제목", "내용")
+    send_message(service, "me", message)
+
+main()
 
 
 # 게시글 등록 함수
