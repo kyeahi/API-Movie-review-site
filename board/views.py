@@ -7,6 +7,7 @@ from board.models import Board
 from comment.models import Comment
 from comment.forms import CommentForm
 
+
 # 게시글 등록 함수
 @login_required(login_url='/users/login')
 def register(request):
@@ -79,3 +80,6 @@ def like(request, bid):
         post.like.add(user)                     # 게시글 좋아요 추가
         message = 'add'
     return JsonResponse({'message': message, 'like_cnt': post.like.count()})    # 좋아요 추가/제거 메시지와 좋아요 갯수 전송
+
+
+

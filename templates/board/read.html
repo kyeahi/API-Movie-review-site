@@ -79,15 +79,19 @@
                     {% endif %}
                 </table>
             </div>
+        <!--   댓글 작성 기능   -->
             <div>
-<!--   댓글 작성 기능   -->
                 <form action="/comment/register/{{post.id}}" method="post">
                     {% csrf_token %}
                     {{ commentForm }}
                     <input type = "submit" value = 댓글등록>
                 </form>
             </div>
+        <!--    구글맵 출력 기능       -->
+        <div id="map" style="width:80%;height:400px;"></div>
+
         </nav>
+        <!--    좋아요 함수   -->
         <script>
             function sendLike(cid, event) {
                 var httpRequest = new XMLHttpRequest();
@@ -107,5 +111,33 @@
                 httpRequest.send();
             }
         </script>
+        <!--   구글맵 출력 함수 -->
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXCb0GYV2ThxnbtOF9GKOHRMw-mnEZYaM&callback=initMap">
+        </script>
+        <script type="text/javascript">
+        function initMap(){
+            navigator.geolocation.getCurrentPosition((position) => {
+                var lat = parseFloat(position.coords.latitude), // 위도
+                    lng = parseFloat(position.coords.longitude);// 경도
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: lat,
+                        lng: lng
+                    },
+                    zoom: 16
+                });
+
+                const image = "http://222.100.67.12/Python/img/map_marker4.png"
+                const myMarker = new google.maps.Marker({
+                    position: {lat: lat, lng: lng },
+                    map: map,
+                    icon: image,
+                });
+            });
+        }
+        </script>
     </body>
 </html>
+
+

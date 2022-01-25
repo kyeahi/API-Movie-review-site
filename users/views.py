@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+import requests
+import json
 
 def base(request):
     return render(request, 'layout/base.html')
