@@ -17,7 +17,8 @@ from google.oauth2.credentials import Credentials
 from googleapiclient import errors
 from email.message import EmailMessage
 import base64
-
+import smtplib
+from email.mime.text import MIMEText
 #
 # # 공공데이터 api / 인증키 수정해야함
 # def request_api(request):
@@ -49,13 +50,13 @@ def request_api4(request):
     return redirect(
         'https://accounts.google.com/o/oauth2/auth?client_id=777210514810-nu0e94sr27f7bh7liqreor1ul654ne3l.apps.googleusercontent.com&redirect_uri=http://127.0.0.1:8000/test2&scope=https://mail.google.com/&response_type=code&access_type=offline')
 
-def request_api5(request):
-    email = EmailMessage(
-        'Hello',                # 제목
-        'Body goes here',       # 내용
-        'from@example.com',     # 보내는 이메일 (settings에서 설정해서 작성안해도 됨)
-        to=['to1@example.com', 'to2@example.com'],)  # 받는 이메일 리스트
-    email.send()
+# def request_api5(request):
+#     email = EmailMessage(
+#         'Hello',                # 제목
+#         'Body goes here',       # 내용
+#         'from@example.com',     # 보내는 이메일 (settings에서 설정해서 작성안해도 됨)
+#         to=['to1@example.com', 'to2@example.com'],)  # 받는 이메일 리스트
+#     email.send()
 
 def gmail_authenticate():
     SCOPES = ['https://mail.google.com/']
@@ -80,6 +81,32 @@ def create_message(sender, to, subject, message_text):
     message.set_content(message_text)
     return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode('utf8')}
 
+
+def sendEmail(request):
+    sendEmail = "kyeeah9@gmail.com"
+    recvEmail = "kyb11220@gmail.com"
+    password = "dPqlsdl55!"
+
+    smtpName = "smtp.gmail.com"  # smtp 서버 주소
+    smtpPort = 587  # smtp 포트 번호
+
+    text = "이메일 인증"
+    msg = MIMEText(text)  # MIMEText(text , _charset = "utf8")
+
+    msg['Subject'] = "Title"
+    msg['From'] = sendEmail
+    msg['To'] = recvEmail
+    print(msg.as_string())
+
+    s = smtplib.SMTP(smtpName, smtpPort)  # 메일 서버 연결
+    s.starttls()  # TLS 보안 처리
+    s.login(sendEmail, password)  # 로그인
+    s.sendmail(sendEmail, recvEmail, msg.as_string())  # 메일 전송, 문자열로 변환하여 보냅니다.
+    s.close()  # smtp 서버 연결을 종료합니다.
+
+    return render(request, 'send_email.html')
+
+
 def send_message(service, user_id, message):
     try:
         message = service.users().messages().send(userId=user_id, body=message).execute()
@@ -88,12 +115,11 @@ def send_message(service, user_id, message):
     except errors.HttpError as error:
         print('An error occurred: %s' % error)
 
-def main():
-    service = gmail_authenticate()
-    message = create_message("보내는사람", "받는사람", "제목", "내용")
-    send_message(service, "me", message)
+# def main():
+#     service = gmail_authenticate()
+#     message = create_message("보내는사람", "받는사람", "제목", "내용")
+#     send_message(service, "me", message)
 
-main()
 
 
 # 게시글 등록 함수

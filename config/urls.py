@@ -13,8 +13,9 @@ urlpatterns = [
                   #path('oauth', board.views.request_api3),
 
                   path('test2', board.views.request_api4),
-                  path('test3', board.views.request_api5),
-
+                 #path('test3', board.views.request_api5),
+                 #path('test4', board.views.main),
+                  path('test5', board.views.sendEmail),
                   # 게시글
                   path('board/register', board.views.register),  # 게시글 등록
                   path('board/list', board.views.list),  # 게시글 전부 출력
