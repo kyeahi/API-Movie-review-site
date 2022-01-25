@@ -73,13 +73,6 @@ def gmail_authenticate():
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
 
-def create_message(sender, to, subject, message_text):
-    message = EmailMessage()
-    message["From"] = sender
-    message["To"] = to.split(",")
-    message["Subject"] = subject
-    message.set_content(message_text)
-    return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode('utf8')}
 
 
 def sendEmail(request):

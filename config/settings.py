@@ -140,10 +140,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 업로드된 이미지의 주소를 생성하는 설정
 MEDIA_URL = '/media/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"                                   # 메일 호스트 서버
-EMAIL_HOST_USER = 'kyeeah9@gmail.com'                            # 우리가 사용할 Gmail
-EMAIL_HOST_PASSWORD = 'dPqlsdl55!'	                             # 우리가 사용할 Gmail p
-EMAIL_PORT = 587                                                 # 서버 포트
-EMAIL_USE_TLS = True                                            # TLS 보안 설정
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER                            # 응답 메일 관련 설정
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = "smtp.gmail.com"                                   # 메일 호스트 서버
+# EMAIL_HOST_USER = 'kyeeah9@gmail.com'                            # 우리가 사용할 Gmail
+# EMAIL_HOST_PASSWORD = 'dPqlsdl55!'	                             # 우리가 사용할 Gmail p
+# EMAIL_PORT = 587                                                 # 서버 포트
+# EMAIL_USE_TLS = True                                            # TLS 보안 설정
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER                            # 응답 메일 관련 설정
