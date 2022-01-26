@@ -1,3 +1,5 @@
+import string
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
@@ -19,6 +21,9 @@ from email.message import EmailMessage
 import base64
 import smtplib
 from email.mime.text import MIMEText
+import random
+
+
 #
 # # 공공데이터 api / 인증키 수정해야함
 # def request_api(request):
@@ -28,7 +33,7 @@ from email.mime.text import MIMEText
 #     print(result['response']['body']['items']['item'][0]['obsrValue'])
 #     return render(request, 'users/text.html')
 #
-#카카오 인가코드 / 인증키 수정해야함
+# 카카오 인가코드 / 인증키 수정해야함
 # def request_api2(request):
 #     return redirect('https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=7ada8e5a1760a314ddb4e3d101ce930c&redirect_uri=http://127.0.0.1:8000/oauth%27)
 #
@@ -50,6 +55,7 @@ def request_api4(request):
     return redirect(
         'https://accounts.google.com/o/oauth2/auth?client_id=777210514810-nu0e94sr27f7bh7liqreor1ul654ne3l.apps.googleusercontent.com&redirect_uri=http://127.0.0.1:8000/test2&scope=https://mail.google.com/&response_type=code&access_type=offline')
 
+
 # def request_api5(request):
 #     email = EmailMessage(
 #         'Hello',                # 제목
@@ -57,6 +63,9 @@ def request_api4(request):
 #         'from@example.com',     # 보내는 이메일 (settings에서 설정해서 작성안해도 됨)
 #         to=['to1@example.com', 'to2@example.com'],)  # 받는 이메일 리스트
 #     email.send()
+
+
+
 
 def gmail_authenticate():
     SCOPES = ['https://mail.google.com/']
@@ -69,24 +78,25 @@ def gmail_authenticate():
         else:
             flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-    return build('gmail', 'v1', credentials=creds)
 
 
-
+# 이메일 인증
 def sendEmail(request):
+
+    # 랜덤 숫자 생성
+    pw = "".join([random.choice(string.ascii_lowercase) for _ in range(10)])  # 소문자 10개
+
     sendEmail = "kyeeah9@gmail.com"
-    recvEmail = "kyb11220@gmail.com"
+    recvEmail = "{kyb11220@gmail.com}"
     password = "dPqlsdl55!"
 
     smtpName = "smtp.gmail.com"  # smtp 서버 주소
     smtpPort = 587  # smtp 포트 번호
 
-    text = "이메일 인증"
+    text = pw
     msg = MIMEText(text)  # MIMEText(text , _charset = "utf8")
 
-    msg['Subject'] = "Title"
+    msg['Subject'] = '이메일 인증'
     msg['From'] = sendEmail
     msg['To'] = recvEmail
     print(msg.as_string())
@@ -97,21 +107,12 @@ def sendEmail(request):
     s.sendmail(sendEmail, recvEmail, msg.as_string())  # 메일 전송, 문자열로 변환하여 보냅니다.
     s.close()  # smtp 서버 연결을 종료합니다.
 
+
+
+
+
     return render(request, 'send_email.html')
 
-
-def send_message(service, user_id, message):
-    try:
-        message = service.users().messages().send(userId=user_id, body=message).execute()
-        print('Message Id: %s' % message['id'])
-        return message
-    except errors.HttpError as error:
-        print('An error occurred: %s' % error)
-
-# def main():
-#     service = gmail_authenticate()
-#     message = create_message("보내는사람", "받는사람", "제목", "내용")
-#     send_message(service, "me", message)
 
 
 
@@ -125,21 +126,24 @@ def register(request):
         boardForm = BoardForm(request.POST)
         if boardForm.is_valid():
             board = boardForm.save(commit=False)
-            board.writer=request.user
+            board.writer = request.user
             board.save()
             return redirect('/board/register')
+
 
 # 게시글 전부 출력하는 함수.
 def list(request):
     posts = Board.objects.all()
     return render(request, 'board/list.html', {'posts': posts})
 
+
 # 게시글 하나만 읽는 함수.
 def read(request, bid):
     post = Board.objects.get(Q(id=bid))
     comments = Comment.objects.filter(board_id=bid)  # 게시글에 달린 코멘트들만 불러와서 comment라는 변수에 저장함
-    commentForm = CommentForm()                      # 코멘트 작성 폼을 저장해서 HTML에 보내줌
+    commentForm = CommentForm()  # 코멘트 작성 폼을 저장해서 HTML에 보내줌
     return render(request, 'board/read.html', {'post': post, 'comments': comments, 'commentForm': commentForm})
+
 
 # 게시글 삭제 함수
 @login_required(login_url='/users/login')
@@ -150,15 +154,16 @@ def delete(request, bid):
     post.delete()
     return redirect('/board/list')
 
+
 # 게시글 수정 함수
 @login_required(login_url='/users/login')
 def update(request, bid):
     post = Board.objects.get(Q(id=bid))
-    if request.user != post.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
-        return render(request, 'users/urNotRightUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
-    else:                                                   # 로그인한 유저가 맞으면
-        if request.method == "GET":                         # GET 방식일 경우
-            boardForm = BoardForm(instance=post)            # 기존게시글의 내용을 저장해서
+    if request.user != post.writer:  # 로그인한 유저랑 작성자랑 같지 않으면
+        return render(request, 'users/urNotRightUser.html')  # 로그인한 유저가 아니라는 HTML을 보여줌
+    else:  # 로그인한 유저가 맞으면
+        if request.method == "GET":  # GET 방식일 경우
+            boardForm = BoardForm(instance=post)  # 기존게시글의 내용을 저장해서
             return render(request, 'board/update.html', {'boardForm': boardForm})  # 수정창에 보이게 함
         elif request.method == "POST":
             boardForm = BoardForm(request.POST)
@@ -175,15 +180,16 @@ def update(request, bid):
                 post.save()
                 return redirect('/board/read/' + str(bid))
 
-#게시글 좋아요 함수.
+
+# 게시글 좋아요 함수.
 @login_required(login_url='/users/login')
 def like(request, bid):
     post = Board.objects.get(Q(id=bid))
     user = request.user
-    if post.like.filter(id=user.id).exists():   # 게시글 좋아요 이미 눌렀을 때 좋아요 누르면
-        post.like.remove(user)                  # 게시글 좋아요 제거
+    if post.like.filter(id=user.id).exists():  # 게시글 좋아요 이미 눌렀을 때 좋아요 누르면
+        post.like.remove(user)  # 게시글 좋아요 제거
         message = 'del'
-    else:                                       # 게시글 좋아요 안 눌렀을 때 좋아요 누르면
-        post.like.add(user)                     # 게시글 좋아요 추가
+    else:  # 게시글 좋아요 안 눌렀을 때 좋아요 누르면
+        post.like.add(user)  # 게시글 좋아요 추가
         message = 'add'
-    return JsonResponse({'message': message, 'like_cnt': post.like.count()})    # 좋아요 추가/제거 메시지와 좋아요 갯수 전송
+    return JsonResponse({'message': message, 'like_cnt': post.like.count()})  # 좋아요 추가/제거 메시지와 좋아요 갯수 전송

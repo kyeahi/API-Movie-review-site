@@ -16,5 +16,6 @@ class Board(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)                       # 게시글 작성일. 우리는 생성만 해뒀다. 사용x
     poster = models.CharField(max_length=1000, blank=True)                       # 포스터 URL
 
+    token = models.CharField(max_length=100)                                    # 이메일 인증 토큰
     def __str__(self):
         return self.title
