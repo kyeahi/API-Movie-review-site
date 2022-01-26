@@ -7,6 +7,7 @@ import comment.views
 import board.views
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('base', board.views.list), # 메인 페이지에서 게시글을 보여준다.
     path('', board.views.list),     # 이것도 메인페이지로 한다.
 

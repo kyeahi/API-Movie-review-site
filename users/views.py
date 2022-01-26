@@ -18,6 +18,9 @@ def signup(request):
         if signupForm.is_valid():
             signupForm.save()
             return redirect('/base')
+        else:
+            messages.info(request, '올바르지 않습니다.')
+            return redirect('/users/signup')
 
 def userlogin(request):
     if request.method == "GET":
@@ -29,6 +32,7 @@ def userlogin(request):
             login(request, loginForm.get_user())
             return redirect('/base')
         else:
+            messages.info(request, '올바르지 않습니다.')
             return redirect('/users/login')
 
 def userlogout(request):
@@ -50,6 +54,7 @@ def change_password(request):
             update_session_auth_hash(request, user)
             return redirect('/base')
         else:
+            messages.info(request, '올바르지 않습니다.')
             return redirect('/users/change_password')
 
 @login_required(login_url='/users/login')

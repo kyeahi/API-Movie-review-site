@@ -25,6 +25,8 @@ def register(request):
 # 게시글 전부 출력하는 함수.
 def list(request):
     posts = Board.objects.all()
+    if request.user.is_staff == 1:
+        print('hi')
     return render(request, 'board/list.html', {'posts': posts})
 
 # 게시글 하나만 읽는 함수.
@@ -38,7 +40,7 @@ def read(request, bid):
 @login_required(login_url='/users/login')
 def delete(request, bid):
     post = Board.objects.get(Q(id=bid))
-    if request.user != post.writer:
+    if request.user.is_staff != True:
         return render(request, 'users/urNotRightUser.html')
     post.delete()
     return redirect('/board/list')
@@ -47,9 +49,9 @@ def delete(request, bid):
 @login_required(login_url='/users/login')
 def update(request, bid):
     post = Board.objects.get(Q(id=bid))
-    if request.user != post.writer:                         # 로그인한 유저랑 작성자랑 같지 않으면
+    if request.user.is_staff != True:                       # 로그인한 유저가 관리자가 아니라면
         return render(request, 'users/urNotRightUser.html') # 로그인한 유저가 아니라는 HTML을 보여줌
-    else:                                                   # 로그인한 유저가 맞으면
+    else:                                                   # 로그인한 유저가 관리자라면
         if request.method == "GET":                         # GET 방식일 경우
             boardForm = BoardForm(instance=post)            # 기존게시글의 내용을 저장해서
             return render(request, 'board/update.html', {'boardForm': boardForm})  # 수정창에 보이게 함
@@ -66,7 +68,7 @@ def update(request, bid):
                 post.poster = boardForm.cleaned_data['poster']
                 post.opening_date = boardForm.cleaned_data['opening_date']
                 post.save()
-                return redirect('/board/read/' + str(bid))
+                return redirect('/board/list')
 
 #게시글 좋아요 함수.
 @login_required(login_url='/users/login')
@@ -81,5 +83,6 @@ def like(request, bid):
         message = 'add'
     return JsonResponse({'message': message, 'like_cnt': post.like.count()})    # 좋아요 추가/제거 메시지와 좋아요 갯수 전송
 
-
+def map(request):
+    return redirect('/board/map')
 

@@ -1,3 +1,7 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div class="span3">
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">로그인</h2>
     <!-- Icon Divider-->
     <div class="divider-custom">
@@ -21,7 +25,16 @@
                     <label for="password">비밀번호</label>
                 </div>
                  <!-- Submit Button-->
-                <button class="btn btn-primary btn-xl" id="submitButton" type="submit">로그인</button>
+                <button id="submitButton" type="submit" class="btn btn-primary pull-right">로그인</button>
+                    {% if messages %}
+                        <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %}
+                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                        </ul>
+                    {% endif %}
             </form>
         </div>
     </div>
+</div>
