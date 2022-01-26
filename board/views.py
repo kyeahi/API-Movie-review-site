@@ -1,5 +1,3 @@
-import string
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
@@ -8,20 +6,12 @@ from board.forms import BoardForm
 from board.models import Board
 from comment.models import Comment
 from comment.forms import CommentForm
-from django.core.mail import EmailMessage
-import requests
-import json
+
 import os.path
-from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from googleapiclient import errors
-from email.message import EmailMessage
-import base64
-import smtplib
-from email.mime.text import MIMEText
-import random
+
 
 
 #
@@ -64,9 +54,6 @@ def request_api4(request):
 #         to=['to1@example.com', 'to2@example.com'],)  # 받는 이메일 리스트
 #     email.send()
 
-
-
-
 def gmail_authenticate():
     SCOPES = ['https://mail.google.com/']
     creds = None
@@ -78,41 +65,6 @@ def gmail_authenticate():
         else:
             flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
-
-
-# 이메일 인증
-def sendEmail(request):
-
-    # 랜덤 숫자 생성
-    pw = "".join([random.choice(string.ascii_lowercase) for _ in range(10)])  # 소문자 10개
-
-    sendEmail = "kyeeah9@gmail.com"
-    recvEmail = "{kyb11220@gmail.com}"
-    password = "dPqlsdl55!"
-
-    smtpName = "smtp.gmail.com"  # smtp 서버 주소
-    smtpPort = 587  # smtp 포트 번호
-
-    text = pw
-    msg = MIMEText(text)  # MIMEText(text , _charset = "utf8")
-
-    msg['Subject'] = '이메일 인증'
-    msg['From'] = sendEmail
-    msg['To'] = recvEmail
-    print(msg.as_string())
-
-    s = smtplib.SMTP(smtpName, smtpPort)  # 메일 서버 연결
-    s.starttls()  # TLS 보안 처리
-    s.login(sendEmail, password)  # 로그인
-    s.sendmail(sendEmail, recvEmail, msg.as_string())  # 메일 전송, 문자열로 변환하여 보냅니다.
-    s.close()  # smtp 서버 연결을 종료합니다.
-
-
-
-
-
-    return render(request, 'send_email.html')
-
 
 
 

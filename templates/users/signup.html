@@ -11,6 +11,7 @@
         <div class="col-lg-8 col-xl-7">
             <form method="post">
                 {% csrf_token %}
+                {% if mail %}
                 <!-- Name input-->
                 <div class="form-floating mb-3">
                     <input name="username" class="form-control" id="name" type="text" placeholder="아이디 입력" data-sb-validations="required" />
@@ -27,7 +28,12 @@
                     <label for="passwordcheck">비밀번호 확인</label>
                 </div>
                 <!-- Submit Button-->
+                <div class="form-floating mb-3">
+                    <input name="email" class="form-control" id="email" type="text" placeholder="{{ mail.tokens }}" data-sb-validations="required" />
+                    <label for="email">이메일</label>
+                </div>
                 <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
             </form>
+            {% endif %}
         </div>
     </div>

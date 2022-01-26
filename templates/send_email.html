@@ -6,12 +6,13 @@
 </head>
 <body>
     <h3>Send Email</h3>
-    <form action="" method="post">
+    <form action="match" method="post">
         {% csrf_token %}
+        인증번호 : <input type="text" name='token' id="token">
+        <input type="submit" value="인증" onclick="location.href='/base'">
+        <br>
 
-        <input type="submit">
-        인증하기 버튼을 누르면 값이 같은지 확인하고 같다면 회원가입 창으로,
-        값이 다르면 재인증
+
     </form>
 </body>
 </html>
