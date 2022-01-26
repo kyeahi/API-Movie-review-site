@@ -33,4 +33,6 @@ urlpatterns = [
     path('users/login', users.views.userlogin),                 # 유저 로그인
     path('users/logout', users.views.userlogout),               # 유저 로그아웃
     path('users/change_password', users.views.change_password), # 유저 패스워드 변경]
+    path('kakao', users.views.kakao_api),
+    path('oauth', users.views.kakao_api1),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
