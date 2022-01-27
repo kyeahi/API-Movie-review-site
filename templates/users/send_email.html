@@ -6,10 +6,10 @@
 </head>
 <body>
     <h3>Send Email</h3>
-    <form action="match" method="post">
+    <form action="/users/match" method="post">
         {% csrf_token %}
         인증번호 : <input type="text" name='token' id="token">
-        <input type="submit" value="인증" onclick="location.href='/base'">
+        <input type="submit" value="인증">
         <br>
 
 

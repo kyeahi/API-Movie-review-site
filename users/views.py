@@ -9,17 +9,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import request
 from django.shortcuts import render, redirect
 # 이메일 인증
 from users.forms import Mail
 
 
-def sendEmail(request):
-    global pw
-    pw = "".join([random.choice(string.ascii_lowercase) for _ in range(10)])  # 소문자 10개 랜덤생성
+def getEmail(request):
+    global recvEmail
+    recvEmail = request.POST.get('mail')
+    return render(request, 'users/getEmail.html')
 
+def sendEmail(request):
+    global pw, recvEmail
+    pw = "".join([random.choice(string.ascii_lowercase) for _ in range(10)])  # 소문자 10개 랜덤생성
+    recvEmail = request.POST.get('mail')
     sendEmail = "kyeeah9@gmail.com"
-    recvEmail = "kyb11220@gmail.com"
+
+
     password = "dPqlsdl55!"
     smtpName = "smtp.gmail.com"  # smtp 서버 주소
     smtpPort = 587  # smtp 포트 번호
@@ -38,39 +45,40 @@ def sendEmail(request):
     s.sendmail(sendEmail, recvEmail, msg.as_string())  # 메일 전송, 문자열로 변환하여 보냅니다.
     s.close()  # smtp 서버 연결을 종료합니다.
 
-    return render(request, 'send_email.html', {'pw': pw})
+    return redirect('/users/match')
 
 # 번호가 맞으면 회원가입창으로 넘겨주기
 def match(request):
     if request.method == 'GET':
         form = Mail()
-        return render(request,'/match.html',{'form': form})
+        return render(request,'users/send_email.html',{'form': form})
 
     elif request.method == 'POST':
         if pw == request.POST.get('token'): # 입력값이 같으면
-
+            mail = User.objects.post(Q(email=recvEmail))
+            mail.save(mail.email)
             return redirect('/users/signup')
 
         elif pw != request.POST.get('token'):  # 입력값이 다르면
             print('다시입력하시오')
-            return redirect('/users/email')
+            return redirect('/users/send_email')
 
 def base(request):
     return render(request, 'layout/base.html')
 
-def signup(request,bid=None):
-    mail = Mail.objects.get(Q(id=bid))
+def signup(request):
     if request.method == "GET":
-        signupForm = UserCreationForm(request.GET)
-        return render(request, 'users/signup.html', {'signupForm': signupForm})
+        signupForm = UserCreationForm()
+        global recvEmail
+        print(recvEmail)
+        mail = User.objects.get(Q(email=recvEmail))
+        return render(request, 'users/signup.html', {'signupForm': signupForm, 'mail' : mail.email})
 
     elif request.method == "POST":
         signupForm = UserCreationForm(request.POST)
         if signupForm.is_valid():
             signupForm.save()
             return redirect('/base')
-
-    mail.tokens = Mail.cleaned_data['tokens']
 
 def kakao_api(request):
     return redirect(
