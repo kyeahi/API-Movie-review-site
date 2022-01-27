@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getEmail</title>
+</head>
+<body>
+     <form action="/users/sendEmail" method="post">
+        {% csrf_token %}
+        이메일 입력 : <input type="text" name="mail" id="mail" >
+        <input type="submit" value="인증">
+        <br>
+
+
+    </form>
+</body>
+</html>

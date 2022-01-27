@@ -10,6 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('base', board.views.list), # 메인 페이지에서 게시글을 보여준다.
     path('', board.views.list),     # 이것도 메인페이지로 한다.
+    path('info',board.views.main),  # 맵, 세션수 출력
+
 
     # 게시글
     path('board/register', board.views.register),       # 게시글 등록
@@ -35,4 +37,9 @@ urlpatterns = [
     path('users/change_password', users.views.change_password), # 유저 패스워드 변경]
     path('kakao', users.views.kakao_api),
     path('oauth', users.views.kakao_api1),
+
+    # 이메일 인증
+    path('users/getemail', users.views.getEmail),
+    path('users/sendEmail', users.views.sendEmail),
+    path('users/match', users.views.match),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

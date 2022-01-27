@@ -6,7 +6,104 @@ from board.forms import BoardForm
 from board.models import Board
 from comment.models import Comment
 from comment.forms import CommentForm
+"""A simple example of how to access the Google Analytics API."""
 
+from apiclient.discovery import build
+from oauth2client.service_account import ServiceAccountCredentials
+from pprint import pprint
+
+
+def get_service(api_name, api_version, scopes, key_file_location):
+    """Get a service that communicates to a Google API.
+
+    Args:
+        api_name: The name of the api to connect to.
+        api_version: The api version to connect to.
+        scopes: A list auth scopes to authorize for the application.
+        key_file_location: The path to a valid service account JSON key file.
+
+    Returns:
+        A service that is connected to the specified API.
+    """
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+            key_file_location, scopes=scopes)
+
+    # Build the service object.
+    service = build(api_name, api_version, credentials=credentials)
+
+    return service
+
+
+def get_first_profile_id(service):
+    # Use the Analytics service object to get the first profile id.
+
+    # Get a list of all Google Analytics accounts for this user
+    accounts = service.management().accounts().list().execute()
+
+    if accounts.get('items'):
+        # Get the first Google Analytics account.
+        account = accounts.get('items')[0].get('id')
+
+        # Get a list of all the properties for the first account.
+        properties = service.management().webproperties().list(
+                accountId=account).execute()
+
+        if properties.get('items'):
+            # Get the first property id.
+            property = properties.get('items')[0].get('id')
+
+            # Get a list of all views (profiles) for the first property.
+            profiles = service.management().profiles().list(
+                    accountId=account,
+                    webPropertyId=property).execute()
+
+            if profiles.get('items'):
+                # return the first view (profile) id.
+                return profiles.get('items')[0].get('id')
+
+    return None
+
+
+def get_results(service, profile_id):
+    # Use the Analytics Service Object to query the Core Reporting API
+    # for the number of sessions within the past seven days.
+    return service.data().ga().get(
+            ids='ga:259141337',  # 바꿔야댐
+            start_date='7daysAgo',
+            end_date='today',
+            metrics='ga:sessions').execute()
+
+
+def print_results(results):
+    # Print data nicely for the user.
+    if results:
+        res = results.get('rows')[0][0]
+        print('View (Profile):', results.get('profileInfo').get('profileName'))
+        print('Total Sessions:', res)
+        return res
+    else:
+        print('No results found')
+
+
+def main(a):
+    # Define the auth scopes to request.
+    scope = 'https://www.googleapis.com/auth/analytics.readonly'
+    key_file_location = 'C:/PythonProject/movie/my-project-the-team-one-b6af10fb94a9.json'  #바꿔야댐
+
+    # Authenticate and construct service.
+    service = get_service(
+            api_name='analytics',
+            api_version='v3',
+            scopes=[scope],
+            key_file_location=key_file_location)
+
+    profile_id = get_first_profile_id(service)
+    sessions = print_results(get_results(service, profile_id))
+    return render(a, 'board/info.html', {'sessions' : sessions})
+
+if __name__ == '__main__':
+    main()
 
 # 게시글 등록 함수
 @login_required(login_url='/users/login')
@@ -25,8 +122,6 @@ def register(request):
 # 게시글 전부 출력하는 함수.
 def list(request):
     posts = Board.objects.all()
-    if request.user.is_staff == 1:
-        print('hi')
     return render(request, 'board/list.html', {'posts': posts})
 
 # 게시글 하나만 읽는 함수.
@@ -82,7 +177,3 @@ def like(request, bid):
         post.like.add(user)                     # 게시글 좋아요 추가
         message = 'add'
     return JsonResponse({'message': message, 'like_cnt': post.like.count()})    # 좋아요 추가/제거 메시지와 좋아요 갯수 전송
-
-def map(request):
-    return redirect('/board/map')
-

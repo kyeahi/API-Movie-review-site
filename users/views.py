@@ -6,7 +6,64 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import requests
 import json
+import random
+import smtplib
+import string
+from django.db.models import Q
+from django.http import request
+from email.mime.text import MIMEText
 
+# 이메일 인증
+from users.forms import Mail
+
+
+def getEmail(request):
+    global recvEmail
+    recvEmail = request.POST.get('mail')
+    return render(request, 'users/getEmail.html')
+
+def sendEmail(request):
+    global pw, recvEmail
+    pw = "".join([random.choice(string.ascii_lowercase) for _ in range(10)])  # 소문자 10개 랜덤생성
+    recvEmail = request.POST.get('mail')
+    sendEmail = "kyeeah9@gmail.com"
+
+
+    password = "dPqlsdl55!"
+    smtpName = "smtp.gmail.com"  # smtp 서버 주소
+    smtpPort = 587  # smtp 포트 번호
+
+    text = '인증번호 : ' + pw
+    msg = MIMEText(text)  # MIMEText(text , _charset = "utf8")
+
+    msg['Subject'] = '이메일 인증'
+    msg['From'] = sendEmail
+    msg['To'] = recvEmail
+    print(msg.as_string())
+
+    s = smtplib.SMTP(smtpName, smtpPort)  # 메일 서버 연결
+    s.starttls()  # TLS 보안 처리
+    s.login(sendEmail, password)  # 로그인
+    s.sendmail(sendEmail, recvEmail, msg.as_string())  # 메일 전송, 문자열로 변환하여 보냅니다.
+    s.close()  # smtp 서버 연결을 종료합니다.
+
+    return redirect('/users/match')
+
+# 번호가 맞으면 회원가입창으로 넘겨주기
+def match(request):
+    if request.method == 'GET':
+        form = Mail()
+        return render(request,'users/send_email.html',{'form': form})
+
+    elif request.method == 'POST':
+        if pw == request.POST.get('token'): # 입력값이 같으면
+            mail = User.objects.post(Q(email=recvEmail))
+            mail.save(mail.email)
+            return redirect('/users/signup')
+
+        elif pw != request.POST.get('token'):  # 입력값이 다르면
+            print('다시입력하시오')
+            return redirect('/users/send_email')
 
 def base(request):
     return render(request, 'layout/base.html')
@@ -14,7 +71,10 @@ def base(request):
 def signup(request):
     if request.method == "GET":
         signupForm = UserCreationForm(request.GET)
-        return render(request, 'users/signup.html', {'signupForm': signupForm})
+        global recvEmail
+        print(recvEmail)
+        mail = User.objects.get(Q(email=recvEmail))
+        return render(request, 'users/signup.html', {'signupForm': signupForm, 'mail': mail.email})
     elif request.method == "POST":
         signupForm = UserCreationForm(request.POST)
         if signupForm.is_valid():

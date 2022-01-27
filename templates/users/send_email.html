@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Email</title>
+</head>
+<body>
+    <h3>Send Email</h3>
+    <form action="/users/match" method="post">
+        {% csrf_token %}
+        인증번호 : <input type="text" name='token' id="token">
+        <input type="submit" value="인증">
+        <br>
+
+
+    </form>
+</body>
+</html>

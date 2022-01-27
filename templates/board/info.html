@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% block board_info %}
+<h1> <b> WATCH PEDIA Project Site</b> </h1>
+<h4> ✅ 오늘의 총 방문자 수 : {{sessions}}😊</h4>
+<h4> ✅ 찾아오시는 길 ⬇⬇⬇</h4>
+
+<!--    맵 출력 기능       -->
+<div id="map" style="width:80%;height:400px;"></div>
+<!--   구글맵 출력 함수 -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXCb0GYV2ThxnbtOF9GKOHRMw-mnEZYaM&callback=initMap"
+    type="text/javascript">
+</script>
+<script>
+function initMap(){
+    navigator.geolocation.getCurrentPosition((position) => {
+        var lat = 37.47547116561407, // 위도
+            lng = 126.88171232847053;// 경도
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: lat,
+                lng: lng
+            },
+            zoom: 16
+        });
+
+        const image = "http://222.100.67.12/Python/img/map_marker4.png"
+        const myMarker = new google.maps.Marker({
+            position: {lat: lat, lng: lng },
+            map: map,
+            icon: image,
+        });
+    });
+}
+</script>
+{% endblock %}
