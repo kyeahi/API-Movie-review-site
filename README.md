@@ -11,8 +11,9 @@ movie**movie**movie
  -->
 
 
-<img src="https://file.mk.co.kr/meet/neds/2021/06/image_readtop_2021_535745_16226846584668330.jpg" width="450px" height="300px" title="px(픽셀) 크기 설정" alt="RubberDuck"></img><br/>
+
 <!-- https://file.mk.co.kr/meet/neds/2021/06/image_readtop_2021_535745_16226846584668330.jpg -->
+
 
 
 
@@ -22,7 +23,7 @@ movie**movie**movie
 
 -------------------------------
 ## 🤦‍♀️ERD구조
-이미지넣기
+<img src="http://222.100.67.12/Python/img/ERD최종.png" width="450px" height="300px" title="px(픽셀) 크기 설정" alt="RubberDuck"></img><br/>
 
 -------------------------------
 
