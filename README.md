@@ -44,7 +44,7 @@ movie**movie**movie
 - ORM
 - HTML
 - CSS
-　
+- JS
 
 ----------------------------------
 
