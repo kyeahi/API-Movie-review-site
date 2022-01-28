@@ -34,6 +34,8 @@ movie**movie**movie
 - REST API
 - HTTP통신
 - ORM
+- HTML
+- CSS
 - GIT, GitHub
 
 ----------------------------------
