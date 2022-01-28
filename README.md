@@ -138,12 +138,12 @@ movie**movie**movie
 ----------------------------------
 
 ## ✔ requirments
-asgiref==3.4.1
-Django==4.0.1
-mysqlclient==2.1.0
-Pillow==9.0.0
-sqlparse==0.4.2
-tzdata==2021.5
+- asgiref==3.4.1
+- Django==4.0.1
+- mysqlclient==2.1.0
+- Pillow==9.0.0
+- sqlparse==0.4.2
+- tzdata==2021.5
 
 ----------------------------------
 
