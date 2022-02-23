@@ -71,10 +71,10 @@ def base(request):
 def signup(request):
     if request.method == "GET":
         signupForm = UserCreationForm(request.GET)
-        global recvEmail
-        print(recvEmail)
-        mail = User.objects.get(Q(email=recvEmail))
-        return render(request, 'users/signup.html', {'signupForm': signupForm, 'mail': mail.email})
+        # global recvEmail
+        # print(recvEmail)
+        # mail = User.objects.get(Q(email=recvEmail))
+        return render(request, 'users/signup.html', {'signupForm': signupForm})
     elif request.method == "POST":
         signupForm = UserCreationForm(request.POST)
         if signupForm.is_valid():
